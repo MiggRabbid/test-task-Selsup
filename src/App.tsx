@@ -106,7 +106,6 @@ class ParamEditor extends React.Component<Props, State> {
       const paramKey = parseInt(key);
       return {
         ...acc,
-        ...acc,
         [params[paramKey].name]: paramValues[paramKey].value,
       };
     }, {});
@@ -158,15 +157,13 @@ const model: Model = {
   ],
 };
 
-const App: React.FC = () => {
-  return (
-    <main className="h-100 container-fluid d-flex justify-content-center">
+const App: React.FC = () => (
+  <main className="h-100 container-fluid d-flex justify-content-center">
       <div className="h-100 col-9 col-md-7 col-xxl-5 d-flex flex-column justify-content-center gap-4">
         <h3 className="text-center">Редактор параметров</h3>
         <ParamEditor params={params} model={model} />
       </div>
-    </main>
-  );
-};
+  </main>
+);
 
 export default App;
