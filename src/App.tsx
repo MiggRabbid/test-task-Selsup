@@ -53,18 +53,18 @@ class ParamInput extends React.Component<PropsParamInput> {
     const { param, model, onChange } = this.props;
     return (
       <div key={param.id} className="input-group">
-      <label className="col-2" htmlFor={`${param.id}`}>
-        {param.name}
-      </label>
-      <input
-        className="form-control"
-        type={param.type}
-        id={`${param.id}`}
-        name={`param-${param.id}`}
-        value={model[param.name]}
-        onChange={onChange}
-      />
-    </div>
+        <label className="col-2" htmlFor={`${param.id}`}>
+          {param.name}
+        </label>
+        <input
+          className="form-control"
+          type={param.type}
+          id={`${param.id}`}
+          name={`param-${param.id}`}
+          value={model[param.name]}
+          onChange={onChange}
+        />
+      </div>
     )
   }
 }
