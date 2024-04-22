@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { ChangeEvent } from "react";
 /**
  * Перечисление ParamType используется как тип input.
  * Сделано для расширения типов параметров.
@@ -12,8 +11,6 @@ import React from "react";
  */
 enum ParamType {
   String = "text",
-  Number = "number",
-  Date = "date",
 }
 
 type Color = string;
@@ -43,6 +40,33 @@ interface State {
   params: Param[];
   paramValues: ParamValue[];
   colors?: Color[] | [];
+}
+
+interface PropsParamInput {
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  param: Param;
+  model: { [paramName: string]: string };
+}
+
+class ParamInput extends React.Component<PropsParamInput> {
+  render() {
+    const { param, model, onChange } = this.props;
+    return (
+      <div key={param.id} className="input-group">
+      <label className="col-2" htmlFor={`${param.id}`}>
+        {param.name}
+      </label>
+      <input
+        className="form-control"
+        type={param.type}
+        id={`${param.id}`}
+        name={`param-${param.id}`}
+        value={model[param.name]}
+        onChange={onChange}
+      />
+    </div>
+    )
+  }
 }
 
 class ParamEditor extends React.Component<Props, State> {
@@ -89,31 +113,21 @@ class ParamEditor extends React.Component<Props, State> {
   };
 
   render() {
-    const { params, paramValues } = this.state;
+    const { params } = this.state;
 
     return (
       <div className="card shadow-sm d-flex flex-column gap-2 p-4">
-        {paramValues.map((item) => {
-          const { paramId, value } = item;
-          const currParams = params.filter((value) => value.id === paramId)[0];
-          return (
-            <div key={paramId} className="input-group">
-              <label className="col-2" htmlFor={`{paramId}`}>
-                {currParams.name}
-              </label>
-              <input
-                className="form-control"
-                type={currParams.type}
-                id={`${paramId}`}
-                name={`param-${paramId}`}
-                value={value}
-                onChange={this.handleParamChange}
-              />
-            </div>
-          );
-        })}
+        {
+          params.map((item) => (
+            <ParamInput
+              onChange={this.handleParamChange}
+              param={item}
+              model={this.getModel()}
+            />
+          ))
+        }
       </div>
-    );
+    )
   }
 }
 
