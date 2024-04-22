@@ -52,7 +52,7 @@ class ParamInput extends React.Component<PropsParamInput> {
   render() {
     const { param, model, onChange } = this.props;
     return (
-      <div key={param.id} className="input-group">
+      <div className="input-group">
         <label className="col-2" htmlFor={`${param.id}`}>
           {param.name}
         </label>
@@ -120,6 +120,7 @@ class ParamEditor extends React.Component<Props, State> {
         {
           params.map((item) => (
             <ParamInput
+              key={item.id}
               onChange={this.handleParamChange}
               param={item}
               model={this.getModel()}
