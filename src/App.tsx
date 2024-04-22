@@ -1,8 +1,19 @@
 import React from 'react';
 
+/**
+ * Перечисление ParamType используется как тип input.
+ * Сделано для расширения типов параметров.
+ * Например:
+ * enum ParamType {
+ *   String = 'text',
+ *   Number = 'number',
+ *   Date = 'date',
+ * }
+ */
 enum ParamType {
-  String = 'string',
+  String = 'text',
   Number = 'number',
+  Date = 'date',
 }
 
 type Color = string
@@ -55,36 +66,43 @@ class ParamEditor extends React.Component<Props, State> {
     this.setState({ paramValues: updatedParamValues });
   };
 
-  
+/**
+ * Метод для получения подставленных значений, возвращает объект вида:
+ * {
+ *  "Назначение": "повседневное",
+ *  "Длина": "макси"
+ *  }
+ */
   getModel = () => {
-    const { params } = this.state;
+    const { params, paramValues} = this.state;
 
-    return Object.keys(params).map((key: string) => {
+    return Object.keys(paramValues).reduce((acc, key: string) => {
       const paramKey = parseInt(key)
-      return {
-        id: paramKey,
+      return { ...acc, 
+        ...acc,
+        [params[paramKey].name]: paramValues[paramKey].value,
       }
-    })
+    }, {})
   };
 
   render() {
     const { params, paramValues } = this.state;
-    
+    console.log(this.getModel())
     return (
-      <div>
+      <div className="card shadow-sm d-flex flex-column gap-2 p-4">
         {
-          Object.values(paramValues).map((item) => {
+          paramValues.map((item) => {
             const { paramId, value} = item;
-            const currParams = Object.values(params).filter((value) => (value.id) === paramId)[0];
-            console.log('map -', paramId, typeof paramId, ' / ', value)
+            const currParams = params.filter((value) => (value.id) === paramId)[0];
             return (
-            <div key={paramId}>
-              <label htmlFor={`{paramId}`}>{currParams.name}</label>
+            <div key={paramId} className="input-group">
+              <label className="col-2"htmlFor={`{paramId}`}>{currParams.name}</label>
               <input
+                className="form-control"
                 type={currParams.type}
                 id={`${paramId}`}
                 name={`param-${paramId}`}
-                value={value || ''}
+                value={value}
                 onChange={this.handleParamChange}
               />
             </div>
@@ -106,11 +124,6 @@ const params: Param[]  = [
     name: 'Длина',
     type: ParamType.String,
   },
-  {
-    id: 3,
-    name: 'Количество',
-    type: ParamType.Number,
-  }
 ];
 
 const model: Model = {
@@ -123,18 +136,16 @@ const model: Model = {
       paramId: 2,
       value: 'макси'
     },
-    {
-      paramId: 3,
-      value: '10'
-    }
   ],
 };
 
 const App: React.FC = () => {
   return (
-    <main className="col-12 col-md-8 col-xxl-6">
-      <h3>Редактор параметров</h3>
-      <ParamEditor params={params} model={model} />
+    <main className="h-100 container-fluid d-flex justify-content-center">
+      <div className="h-100 col-9 col-md-7 col-xxl-5 d-flex flex-column justify-content-center gap-4">
+        <h3 className="text-center">Редактор параметров</h3>
+        <ParamEditor params={params} model={model} />
+      </div>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 {
   "name": "test-task-for-salsup",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,8 +23,8 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.75.0",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "vite-plugin-style-import": "^2.0.0"
+    "vite": "^5.2.0"
   }
 }
