@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Перечисление ParamType используется как тип input.
@@ -11,12 +11,12 @@ import React from 'react';
  * }
  */
 enum ParamType {
-  String = 'text',
-  Number = 'number',
-  Date = 'date',
+  String = "text",
+  Number = "number",
+  Date = "date",
 }
 
-type Color = string
+type Color = string;
 
 interface Param {
   id: number;
@@ -60,43 +60,47 @@ class ParamEditor extends React.Component<Props, State> {
     const { value, id } = event.target;
 
     const updatedParamValues = this.state.paramValues.map((paramValue) =>
-      paramValue.paramId === parseInt(id) ? { ...paramValue, value } : paramValue
+      paramValue.paramId === parseInt(id)
+        ? { ...paramValue, value }
+        : paramValue
     );
-  
+
     this.setState({ paramValues: updatedParamValues });
   };
 
-/**
- * Метод для получения подставленных значений, возвращает объект вида:
- * {
- *  "Назначение": "повседневное",
- *  "Длина": "макси"
- *  }
- */
+  /**
+   * Метод для получения подставленных значений, возвращает объект вида:
+   * {
+   *  "Назначение": "повседневное",
+   *  "Длина": "макси"
+   *  }
+   */
   getModel = () => {
-    const { params, paramValues} = this.state;
+    const { params, paramValues } = this.state;
 
     return Object.keys(paramValues).reduce((acc, key: string) => {
-      const paramKey = parseInt(key)
-      return { ...acc, 
+      const paramKey = parseInt(key);
+      return {
+        ...acc,
         ...acc,
         [params[paramKey].name]: paramValues[paramKey].value,
-      }
-    }, {})
+      };
+    }, {});
   };
 
   render() {
     const { params, paramValues } = this.state;
-    console.log(this.getModel())
+
     return (
       <div className="card shadow-sm d-flex flex-column gap-2 p-4">
-        {
-          paramValues.map((item) => {
-            const { paramId, value} = item;
-            const currParams = params.filter((value) => (value.id) === paramId)[0];
-            return (
+        {paramValues.map((item) => {
+          const { paramId, value } = item;
+          const currParams = params.filter((value) => value.id === paramId)[0];
+          return (
             <div key={paramId} className="input-group">
-              <label className="col-2"htmlFor={`{paramId}`}>{currParams.name}</label>
+              <label className="col-2" htmlFor={`{paramId}`}>
+                {currParams.name}
+              </label>
               <input
                 className="form-control"
                 type={currParams.type}
@@ -106,22 +110,22 @@ class ParamEditor extends React.Component<Props, State> {
                 onChange={this.handleParamChange}
               />
             </div>
-          )})
-        }
+          );
+        })}
       </div>
     );
   }
 }
 
-const params: Param[]  = [
+const params: Param[] = [
   {
     id: 1,
-    name: 'Назначение',
+    name: "Назначение",
     type: ParamType.String,
   },
   {
     id: 2,
-    name: 'Длина',
+    name: "Длина",
     type: ParamType.String,
   },
 ];
@@ -130,11 +134,11 @@ const model: Model = {
   paramValues: [
     {
       paramId: 1,
-      value: 'повседневное'
+      value: "повседневное",
     },
     {
       paramId: 2,
-      value: 'макси'
+      value: "макси",
     },
   ],
 };
@@ -148,6 +152,6 @@ const App: React.FC = () => {
       </div>
     </main>
   );
-}
+};
 
 export default App;
